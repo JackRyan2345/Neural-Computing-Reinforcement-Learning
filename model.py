@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import config as C
+from config import C
 
 class QNetwork(nn.Module):
 
