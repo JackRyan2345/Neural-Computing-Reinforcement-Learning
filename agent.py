@@ -28,6 +28,14 @@ class DQNAgent:
         self.optimizer = torch.optim.Adam(self.qnetwork_local.parameters(), lr=C.LR) # updates the online networks weights
         self.loss = nn.SmoothL1Loss() # Huber loss, squared error for small, linear for large
 
+    def act(self, state, eps = 0.0):
+        if random.random() < eps:
+            return random.randrange(self.n_actions)
+        state = torch.as_tensor(state, dtype=torch.float32).unsqueeze(0)
+        with torch.no_grad():
+            action_values = self.qnetwork_local(state)
+        return int(action_values.argmax(dim=1).item())
+
 
 if __name__ == "__main__":
     agent = DQNAgent(6, 3)
